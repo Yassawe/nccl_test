@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -Wall -std=c++11 -rdynamic CMakeFiles/example-1.dir/example-1.cxx.o -o example-1  -Wl,-rpath,/usr/local/cuda/lib64:/opt/hpcx/ompi/lib /usr/local/cuda/lib64/libcudart_static.a -ldl -lrt /usr/local/cuda/lib64/libcudart.so /opt/hpcx/ompi/lib/libmpi.so -lnccl -lpthread 

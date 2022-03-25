@@ -58,7 +58,22 @@ static void getHostName(char *hostname, int maxlen) {
 
 int main(int argc, char *argv[]) {
 
-    int size = 32 * 1024 * 1024;
+    setenv("NCCL_MAX_NCHANNELS", "1", true); 
+
+    int size;
+
+    if(argc==2){
+        size = atoi(argv[1]);
+    }
+    else if (argc>2){
+        printf("too many arguments\n");
+        return 1;
+    }
+    else{
+        printf("expected an argument\n");
+        return 1;
+    }
+
     int myRank, nRanks, localRank = 0;
 
     // initializing MPI
@@ -101,16 +116,31 @@ int main(int argc, char *argv[]) {
     CUDACHECK(cudaMalloc(&recvbuff, size * sizeof(float)));
     CUDACHECK(cudaStreamCreate(&s));
 
-    // initializing NCCL
+    cudaEvent_t start;
+    cudaEvent_t finish;
+    float time;
+
+    
+
     NCCLCHECK(ncclCommInitRank(&comm, nRanks, id, myRank));
 
-    // communicating using NCCL
-    NCCLCHECK(ncclAllReduce((const void *) sendbuff, (void *) recvbuff,
-                            size, ncclFloat, ncclSum,
-                            comm, s));
+    cudaEventCreate(&start);
+    cudaEventCreate(&finish);
+    cudaEventRecord(start, 0);
 
-    // completing NCCL operation by synchronizing on the CUDA stream
-    CUDACHECK(cudaStreamSynchronize(s));
+    ncclAllReduce((const void *) sendbuff, (void *) recvbuff,
+                            size, ncclFloat, ncclSum,
+                            comm, s);
+
+    cudaStreamSynchronize(s);
+
+    cudaEventRecord(finish, 0);
+    cudaEventSynchronize(finish);
+    cudaEventElapsedTime(&time, start, finish);
+    cudaEventDestroy(start);
+    cudaEventDestroy(finish);
+
+    printf("NCCL. Device %d. Message size = %d bytes. Elapsed time: %.3fms\n", myRank, size*4, time);
 
     // free device buffers
     CUDACHECK(cudaFree(sendbuff));
