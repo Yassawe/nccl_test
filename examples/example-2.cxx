@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "cuda_runtime.h"
+#include <cuda_profiler_api.h>
 #include "nccl.h"
 #include "mpi.h"
 #include <unistd.h>
@@ -128,9 +129,15 @@ int main(int argc, char *argv[]) {
     cudaEventCreate(&finish);
     cudaEventRecord(start, 0);
 
+
+    // ###############################
+    cudaProfilerStart();
     ncclAllReduce((const void *) sendbuff, (void *) recvbuff,
                             size, ncclFloat, ncclSum,
                             comm, s);
+
+    cudaProfilerStop();
+    //#################################
 
     cudaStreamSynchronize(s);
 

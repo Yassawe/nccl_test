@@ -286,7 +286,7 @@ CUDA_USE_STATIC_CUDA_RUNTIME:BOOL=ON
 CUDA_VERBOSE_BUILD:BOOL=OFF
 
 //Version of CUDA as computed from nvcc.
-CUDA_VERSION:STRING=11.5
+CUDA_VERSION:STRING=11.6
 
 //"cublas" library
 CUDA_cublas_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libcublas.so
@@ -301,7 +301,7 @@ CUDA_cudart_static_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libcudart_static.a
 CUDA_cufft_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libcufft.so
 
 //"cupti" library
-CUDA_cupti_LIBRARY:FILEPATH=/usr/local/cuda/extras/CUPTI/lib64/libcupti.so
+CUDA_cupti_LIBRARY:FILEPATH=CUDA_cupti_LIBRARY-NOTFOUND
 
 //"curand" library
 CUDA_curand_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libcurand.so
@@ -375,7 +375,7 @@ MPI_CXX_ADDITIONAL_INCLUDE_DIRS:STRING=
 MPI_CXX_COMPILER:FILEPATH=/usr/local/mpi/bin/mpicxx
 
 //MPI CXX compiler wrapper include directories
-MPI_CXX_COMPILER_INCLUDE_DIRS:STRING=/opt/hpcx/ompi/include/openmpi;/opt/hpcx/ompi/include/openmpi/opal/mca/hwloc/hwloc201/hwloc/include;/opt/hpcx/ompi/include/openmpi/opal/mca/event/libevent2022/libevent;/opt/hpcx/ompi/include/openmpi/opal/mca/event/libevent2022/libevent/include;/opt/hpcx/ompi/include
+MPI_CXX_COMPILER_INCLUDE_DIRS:STRING=/opt/hpcx/ompi/include;/opt/hpcx/ompi/include/openmpi;/opt/hpcx/ompi/include/openmpi/opal/mca/hwloc/hwloc201/hwloc/include;/opt/hpcx/ompi/include/openmpi/opal/mca/event/libevent2022/libevent;/opt/hpcx/ompi/include/openmpi/opal/mca/event/libevent2022/libevent/include
 
 //MPI CXX compilation definitions
 MPI_CXX_COMPILE_DEFINITIONS:STRING=
@@ -393,7 +393,7 @@ MPI_CXX_LIB_NAMES:STRING=mpi
 MPI_CXX_LINK_FLAGS:STRING=-Wl,-rpath -Wl,/opt/hpcx/ompi/lib -Wl,--enable-new-dtags -pthread
 
 //If true, the MPI-2 C++ bindings are disabled using definitions.
-MPI_CXX_SKIP_MPICXX:BOOL=FALSE
+MPI_CXX_SKIP_MPICXX:BOOL=OFF
 
 //MPI C additional include directories
 MPI_C_ADDITIONAL_INCLUDE_DIRS:STRING=
@@ -402,7 +402,7 @@ MPI_C_ADDITIONAL_INCLUDE_DIRS:STRING=
 MPI_C_COMPILER:FILEPATH=/usr/local/mpi/bin/mpicc
 
 //MPI C compiler wrapper include directories
-MPI_C_COMPILER_INCLUDE_DIRS:STRING=/opt/hpcx/ompi/include/openmpi;/opt/hpcx/ompi/include/openmpi/opal/mca/hwloc/hwloc201/hwloc/include;/opt/hpcx/ompi/include/openmpi/opal/mca/event/libevent2022/libevent;/opt/hpcx/ompi/include/openmpi/opal/mca/event/libevent2022/libevent/include;/opt/hpcx/ompi/include
+MPI_C_COMPILER_INCLUDE_DIRS:STRING=/opt/hpcx/ompi/include;/opt/hpcx/ompi/include/openmpi;/opt/hpcx/ompi/include/openmpi/opal/mca/hwloc/hwloc201/hwloc/include;/opt/hpcx/ompi/include/openmpi/opal/mca/event/libevent2022/libevent;/opt/hpcx/ompi/include/openmpi/opal/mca/event/libevent2022/libevent/include
 
 //MPI C compilation definitions
 MPI_C_COMPILE_DEFINITIONS:STRING=
@@ -428,6 +428,12 @@ NCCL_INCLUDE_DIR:PATH=/usr/include
 //Path to a library.
 NCCL_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libnccl.so
 
+//Arguments to supply to pkg-config
+PKG_CONFIG_ARGN:STRING=
+
+//pkg-config executable
+PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
+
 //Value Computed by CMake
 nccl-examples_BINARY_DIR:STATIC=/src/main/nccl_test/build
 
@@ -451,7 +457,7 @@ CMAKE_CACHEFILE_DIR:INTERNAL=/src/main/nccl_test/build
 //Major version of cmake used to create the current loaded cache
 CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
-CMAKE_CACHE_MINOR_VERSION:INTERNAL=21
+CMAKE_CACHE_MINOR_VERSION:INTERNAL=22
 //Patch version of cmake used to create the current loaded cache
 CMAKE_CACHE_PATCH_VERSION:INTERNAL=3
 //ADVANCED property for variable: CMAKE_COLOR_MAKEFILE
@@ -564,7 +570,7 @@ CMAKE_RANLIB-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_READELF
 CMAKE_READELF-ADVANCED:INTERNAL=1
 //Path to CMake installation.
-CMAKE_ROOT:INTERNAL=/opt/conda/share/cmake-3.21
+CMAKE_ROOT:INTERNAL=/opt/conda/share/cmake-3.22
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS
 CMAKE_SHARED_LINKER_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_DEBUG
@@ -661,7 +667,7 @@ CUDA_cusolver_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_cusparse_LIBRARY
 CUDA_cusparse_LIBRARY-ADVANCED:INTERNAL=1
 //Location of make2cmake.cmake
-CUDA_make2cmake:INTERNAL=/opt/conda/share/cmake-3.21/Modules/FindCUDA/make2cmake.cmake
+CUDA_make2cmake:INTERNAL=/opt/conda/share/cmake-3.22/Modules/FindCUDA/make2cmake.cmake
 //ADVANCED property for variable: CUDA_nppc_LIBRARY
 CUDA_nppc_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_nppial_LIBRARY
@@ -687,11 +693,11 @@ CUDA_npps_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_nvToolsExt_LIBRARY
 CUDA_nvToolsExt_LIBRARY-ADVANCED:INTERNAL=1
 //Location of parse_cubin.cmake
-CUDA_parse_cubin:INTERNAL=/opt/conda/share/cmake-3.21/Modules/FindCUDA/parse_cubin.cmake
+CUDA_parse_cubin:INTERNAL=/opt/conda/share/cmake-3.22/Modules/FindCUDA/parse_cubin.cmake
 //Location of run_nvcc.cmake
-CUDA_run_nvcc:INTERNAL=/opt/conda/share/cmake-3.21/Modules/FindCUDA/run_nvcc.cmake
+CUDA_run_nvcc:INTERNAL=/opt/conda/share/cmake-3.22/Modules/FindCUDA/run_nvcc.cmake
 //Details about finding CUDA
-FIND_PACKAGE_MESSAGE_DETAILS_CUDA:INTERNAL=[/usr/local/cuda][/usr/local/cuda/bin/nvcc][/usr/local/cuda/include][/usr/local/cuda/lib64/libcudart_static.a][v11.5()]
+FIND_PACKAGE_MESSAGE_DETAILS_CUDA:INTERNAL=[/usr/local/cuda][/usr/local/cuda/bin/nvcc][/usr/local/cuda/include][/usr/local/cuda/lib64/libcudart_static.a][v11.6()]
 //Details about finding MPI
 FIND_PACKAGE_MESSAGE_DETAILS_MPI:INTERNAL=[TRUE][TRUE][c ][v3.1()]
 //Details about finding MPI_C
@@ -758,4 +764,8 @@ MPI_mpi_LIBRARY-ADVANCED:INTERNAL=1
 NCCL_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: NCCL_LIBRARY
 NCCL_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: PKG_CONFIG_ARGN
+PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
+PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
 

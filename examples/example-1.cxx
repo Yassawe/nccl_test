@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "cuda_runtime.h"
+#include <cuda_profiler_api.h>
 #include "nccl.h"
 #include <stdlib.h>
 
@@ -27,11 +28,24 @@
 
 int main(int argc, char *argv[]) {
 
+    int size;
+
+    if(argc==2){
+        size = atoi(argv[1]);
+    }
+    else if (argc>2){
+        printf("too many arguments\n");
+        return 1;
+    }
+    else{
+        printf("expected an argument\n");
+        return 1;
+    }
+
     ncclComm_t comms[4];
 
     // managing 4 devices
     int nDev = 4;
-    int size = 32 * 1024 * 1024;
     int devs[4] = {0, 1, 2, 3};
 
     // allocating and initializing device buffers
@@ -54,11 +68,20 @@ int main(int argc, char *argv[]) {
     // calling NCCL communication API. Group API is required when
     // using multiple devices per thread
     NCCLCHECK(ncclGroupStart());
+
+
+  //##########################
+    cudaProfilerStart();
     for (int i = 0; i < nDev; ++i) {
         NCCLCHECK(ncclAllReduce((const void *) sendbuff[i],
                                 (void *) recvbuff[i], size, ncclFloat, ncclSum,
                                 comms[i], s[i]));
     }
+    cudaProfilerStop();
+  //##############################
+
+
+
     NCCLCHECK(ncclGroupEnd());
 
     // synchronizing on CUDA streams to wait for completion of NCCL operation

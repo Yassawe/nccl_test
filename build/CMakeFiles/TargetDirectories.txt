@@ -1,7 +1,7 @@
-/src/main/nccl_test/build/CMakeFiles/rebuild_cache.dir
 /src/main/nccl_test/build/CMakeFiles/edit_cache.dir
-/src/main/nccl_test/build/examples/CMakeFiles/edit_cache.dir
-/src/main/nccl_test/build/examples/CMakeFiles/example-3.dir
-/src/main/nccl_test/build/examples/CMakeFiles/example-2.dir
-/src/main/nccl_test/build/examples/CMakeFiles/rebuild_cache.dir
+/src/main/nccl_test/build/CMakeFiles/rebuild_cache.dir
 /src/main/nccl_test/build/examples/CMakeFiles/example-1.dir
+/src/main/nccl_test/build/examples/CMakeFiles/example-2.dir
+/src/main/nccl_test/build/examples/CMakeFiles/example-3.dir
+/src/main/nccl_test/build/examples/CMakeFiles/edit_cache.dir
+/src/main/nccl_test/build/examples/CMakeFiles/rebuild_cache.dir
